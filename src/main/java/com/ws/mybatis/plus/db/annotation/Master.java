@@ -1,4 +1,4 @@
-package com.ws.mybatis.plus.annotation;
+package com.ws.mybatis.plus.db.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

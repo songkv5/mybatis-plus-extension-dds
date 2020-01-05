@@ -1,7 +1,7 @@
-package com.ws.mybatis.plus.db;
+package com.ws.mybatis.plus.db.router;
 
+import com.ws.mybatis.plus.db.DsRouteContextHolder;
 import com.ws.mybatis.plus.enums.DBType;
-import com.ws.mybatis.plus.enums.RouteRule;
 import lombok.Data;
 
 /**
@@ -12,10 +12,6 @@ import lombok.Data;
  */
 @Data
 public class DataSourceRouteContext {
-    /**
-     * 路由规则
-     */
-    private RouteRule rule;
     /**
      * 数据源类型
      */

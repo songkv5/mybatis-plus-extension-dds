@@ -1,6 +1,5 @@
-package com.ws.mybatis.plus.aop;
+package com.ws.mybatis.plus.db.router;
 
-import com.ws.mybatis.plus.db.DataSourceRouteContext;
 import com.ws.mybatis.plus.db.DsRouteContextHolder;
 import com.ws.mybatis.plus.enums.DBType;
 import org.aspectj.lang.JoinPoint;
@@ -18,25 +17,25 @@ import org.slf4j.LoggerFactory;
  * @since 2019年11月07日 14:27
  */
 @Aspect
-public class DataSourceAspect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceAspect.class);
+public class DataSourceRouter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceRouter.class);
 
     /**
      * 强制全部走从库
      */
-    @Pointcut("@annotation(com.ws.mybatis.plus.annotation.Slave)")
+    @Pointcut("@annotation(com.ws.mybatis.plus.db.annotation.Slave)")
     public void readPointCut(){}
 
     /**
      * 强制全部走主库
      */
-    @Pointcut("@annotation(com.ws.mybatis.plus.annotation.Master)")
+    @Pointcut("@annotation(com.ws.mybatis.plus.db.annotation.Master)")
     public void writePointcut() {}
 
     /**
      * 默认切面，读走从库，写走主库
      */
-    @Pointcut("!@annotation(com.ws.mybatis.plus.annotation.Master) && !@annotation(com.ws.mybatis.plus.annotation.Slave)")
+    @Pointcut("!@annotation(com.ws.mybatis.plus.db.annotation.Master) && !@annotation(com.ws.mybatis.plus.db.annotation.Slave)")
     public void defaultPointcut() {}
 
     /**

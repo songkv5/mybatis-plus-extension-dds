@@ -1,6 +1,6 @@
-package com.ws.mybatis.plus.interceptors;
+package com.ws.mybatis.plus.plugin;
 
-import com.ws.mybatis.plus.db.DataSourceRouteContext;
+import com.ws.mybatis.plus.db.router.DataSourceRouteContext;
 import com.ws.mybatis.plus.db.DsRouteContextHolder;
 import com.ws.mybatis.plus.enums.DBType;
 import com.ws.mybatis.plus.exception.DdsException;
@@ -37,9 +37,9 @@ import java.util.Locale;
         @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
         @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class })
 })
-public class MybatisSqlExecuteInterceptor implements Interceptor {
+public class MybatisSqlExecutePlugin implements Interceptor {
     private boolean printSql = false;
-    private static Logger logger = LoggerFactory.getLogger(MybatisSqlExecuteInterceptor.class);
+    private static Logger logger = LoggerFactory.getLogger(MybatisSqlExecutePlugin.class);
     private DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.CHINA);
 
     @Override

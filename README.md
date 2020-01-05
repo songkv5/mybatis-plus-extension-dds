@@ -9,35 +9,37 @@
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
-2. 配置。使用@MybatisPlusSimpleConfig 注解，注册SimpleMybatisPlusSqlSessionFactory的Bean，如下
+2. 配置。使用@SimpleMybatisPlusConfig 注解，注册SimpleMybatisPlusSqlSessionFactory的Bean，如下
 ```java
-@MapperScan(value = "*mapper.java的包路径")
-@MybatisPlusSimpleConfig
+@SimpleMybatisPlusConfig(basePackages = "mapper class的扫描路径")
 public class Config {
 @Bean
 public SimpleMybatisPlusSqlSessionFactory mybatisSqlSessionFactoryBean() {
 	DynamicDataSource.Builder ddsBuilder = DynamicDataSource.newBuilder();
 	// 动态数据源配置
-    DynamicDataSource dds = ddsBuilder.master(master)   // 主库
-						              .addSlave(slave1) // 从库1
-						              .addSlave(slave2) // 从库2
-						              .addSlave(slave3) // 从库3
-						              .build();
+    DynamicDataSource dds = ddsBuilder
+                            .master(master)   // 主库
+                            .addSlave(slave1) // 从库1
+                            .addSlave(slave2) // 从库2
+                            .addSlave(slave3) // 从库3
+                            .build();
 
     SimpleMybatisPlusSqlSessionFactory.Builder builder = SimpleMybatisPlusSqlSessionFactory.newBuilder();
     ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
     SimpleMybatisPlusSqlSessionFactory sqlSessionFactory = 
     builder.dataSource(dds) //配置数据源
             .printSql(true) // 是否打印SQL，对性能可能有影响，生产环境建议设置为false
-            .addInterceptor(组件1) // 加一个插件，如分页插件
-            .addInterceptor(组件2) // 加一个插件
+            .addPlugin(组件1) // 加一个插件，如分页插件
+            .addPlugin(组件2) // 加一个插件
             // mapper.xml文件位置
             .mapperLocations(resolver.getResources("classpath:mapper/*.xml"))
             .build();
     return sqlSessionFactory;
 }
 ```
-3. 使用，向平时编写业务代码一样
+**配置说明**：使用SimpleMybatisPlusConfig注解的basePackages属性和直接只用@MapperScan的basePackage属性效果一样
+
+3. 使用，像平时编写业务代码一样
 ```java
 @Service
 public class TestService {

@@ -1,7 +1,7 @@
 package com.ws.mybatis.plus.db;
 
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.ws.mybatis.plus.interceptors.MybatisSqlExecuteInterceptor;
+import com.ws.mybatis.plus.plugin.MybatisSqlExecutePlugin;
 import org.apache.ibatis.plugin.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public final class SimpleMybatisPlusSqlSessionFactory extends MybatisSqlSessionF
         /**
          * 插件
          */
-        private List<Interceptor> interceptors;
+        private List<Interceptor> plugins;
         /**
          * mapper.xml文件路径
          */
@@ -49,14 +49,14 @@ public final class SimpleMybatisPlusSqlSessionFactory extends MybatisSqlSessionF
         private Builder() {
         }
 
-        public Builder addInterceptor(Interceptor interceptor) {
+        public Builder addPlugin(Interceptor interceptor) {
             if (interceptor == null) {
                 return this;
             }
-            if (this.interceptors == null) {
-                this.interceptors = new ArrayList<>();
+            if (this.plugins == null) {
+                this.plugins = new ArrayList<>();
             }
-            this.interceptors.add(interceptor);
+            this.plugins.add(interceptor);
             return this;
         }
         public Builder printSql(boolean printSql) {
@@ -79,17 +79,17 @@ public final class SimpleMybatisPlusSqlSessionFactory extends MybatisSqlSessionF
         public SimpleMybatisPlusSqlSessionFactory build() {
             SimpleMybatisPlusSqlSessionFactory result = new SimpleMybatisPlusSqlSessionFactory();
             /** 主从分离*/
-            MybatisSqlExecuteInterceptor mybatisSqlExecuteInterceptor = new MybatisSqlExecuteInterceptor();
+            MybatisSqlExecutePlugin mybatisSqlExecuteInterceptor = new MybatisSqlExecutePlugin();
             mybatisSqlExecuteInterceptor.setPrintSql(printSql);
             /*//重新封装分页
             PaginationInterceptor page = new PaginationInterceptor();
             page.setDialectType("mysql");*/
 
-            if (this.interceptors != null && this.interceptors.size() > 0) {
-                interceptors.add(mybatisSqlExecuteInterceptor);
+            if (this.plugins != null && this.plugins.size() > 0) {
+                plugins.add(mybatisSqlExecuteInterceptor);
             }
             result.setDataSource(this.dataSource);
-            result.setPlugins(interceptors.toArray(new Interceptor[interceptors.size()]));
+            result.setPlugins(plugins.toArray(new Interceptor[plugins.size()]));
             if (this.mapperLocations != null && this.mapperLocations.length > 0) {
                 result.setMapperLocations(this.mapperLocations);
             }

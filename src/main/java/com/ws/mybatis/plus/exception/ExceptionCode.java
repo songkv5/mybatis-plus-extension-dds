@@ -23,4 +23,9 @@ public interface ExceptionCode {
      * 当前数据源没有权限
      */
     Integer CRT_DATA_SOURCE_NO_PERMIT = 40004;
+
+    /**
+     * 数据源配置失败
+     */
+    Integer DDS_CONFIG_FAILED = 40005;
 }

@@ -1,6 +1,6 @@
 package com.ws.mybatis.plus.config.annotation;
 
-import com.ws.mybatis.plus.config.MybatisPlusConfigAdapter;
+import com.ws.mybatis.plus.config.SimpleMybatisPlusConfigAdapter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
@@ -17,7 +17,12 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-@Import(MybatisPlusConfigAdapter.class)
+@Import(SimpleMybatisPlusConfigAdapter.class)
 @Configuration
-public @interface MybatisPlusSimpleConfig {
+public @interface SimpleMybatisPlusConfig {
+    /**
+     * mapper class的包扫描路径
+     * @return
+     */
+    String[] basePackages() default {};
 }
